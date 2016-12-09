@@ -1,0 +1,246 @@
+<html>
+  <head>
+    <title>Ira Downing Google Charts Assignment 4</title>
+    <!--Load the AJAX API-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+
+<body>
+    <!--Div that will hold the 2 line charts-->
+    <table class="columns">
+      <tr>
+        <td><div id="mpg_chart_div" style="border: 1px solid #ccc"></div></td>
+        <td><div id="hp_chart_div" style="border: 1px solid #ccc"></div></td>
+      </tr>
+
+        <td><div id="weight_chart_div" style="border: 1px solid #ccc"></div></td>
+        <td><div id="accel_chart_div" style="border: 1px solid #ccc"></div></td>
+
+      <tr>
+       <h2>US, EU, ASIA automobile data (1970-1982)</h2>
+       <div id="origin_chart_div" </div>
+      </tr>  <!-- <td><div id="chart_div" style="border: 1px solid #ccc"></div></td> -->
+
+    </table>
+</body>
+
+    <!-- <div class="container"></div>
+    <div id="curve_chart"></div> -->
+
+    <!-- google charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- tabletop.js -->
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <script type="text/javascript">
+
+      //tabletop
+      //window.onload = function() { init() };
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1j6sg0gLBsATBVJCok96U9nkU7iWMJaq7-SQotgxxhmA/pubhtml';
+
+      function init() {
+        Tabletop.init( { key: public_spreadsheet_url,
+                         callback: showInfo,
+                         simpleSheet: true } )
+
+      }
+
+      function showInfo(data, tabletop) {
+
+        //Take the data pass it to one for MPG and two for HP data
+        //using map function
+        var one = data.map(function(data){
+
+          var obj = {};
+          obj = [data.yr, Number(data.mpg)];
+          //console.log(data);
+          return obj;
+        })
+
+        var two = data.map(function(data){
+
+          var obj = {};
+          obj = [data.yr, Number(data.hp)];
+          //console.log(data);
+          return obj;
+        })
+
+        var three = data.map(function(data){
+
+          var obj = {};
+          obj = [data.yr, Number(data.weight)];
+          //console.log(data);
+          return obj;
+        })
+
+        var four = data.map(function(data){
+
+          var obj = {};
+          obj = [data.yr, Number(data.accel)];
+          //console.log(data);
+          return obj;
+        })
+
+        var five = data.map(function(data){
+
+          var obj = {};
+          obj = [data.yr, Number(data.mpg), Number(data.hp), Number(data.cyl), Number(data.accel), Number(data.origin), Number(data.weight), Number(data.displ), data.name];
+          console.log(data);
+          return obj;
+        })
+
+        var six = data.map(function(data){
+
+          var obj = {};
+          obj = [data.yr, Number(data.cyl)];
+          console.log(data);
+          return obj;
+        })
+
+        //pass to google charts
+        drawChart(one,two,three,four,five,six);
+
+      }
+
+      //GOOGLE CHARTS
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart','line','table']});
+      //google.charts.load('current', {'packages':['table']});
+      // Set a callback to run when the Google Visualization API is loaded.
+      //google.charts.setOnLoadCallback(init);
+
+//draw mpg chart
+google.charts.setOnLoadCallback(init);
+
+//draw hp chart
+
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+        function drawChart(dataStuff1,dataStuff2,dataStuff3,dataStuff4,dataStuff5,dataStuff6) {
+        // Create the data table.
+        var data1 = new google.visualization.DataTable();
+
+        //set chart options Labels
+
+        data1.addColumn('string', 'year')
+        data1.addColumn('number', 'MPG')
+        data1.addRows(dataStuff1);
+
+
+        var data2 = new google.visualization.DataTable();
+
+        data2.addColumn('string', 'year')
+        data2.addColumn('number', 'HP')
+        data2.addRows(dataStuff2);
+
+        var data3 = new google.visualization.DataTable();
+
+        data3.addColumn('string', 'year')
+        data3.addColumn('number', 'Weight')
+        data3.addRows(dataStuff3);
+
+        var data4 = new google.visualization.DataTable();
+
+        data4.addColumn('string', 'year')
+        data4.addColumn('number', 'Accel')
+        data4.addRows(dataStuff4);
+
+        var data5 = new google.visualization.DataTable();
+
+        data5.addColumn('string', 'year')
+        data5.addColumn('number', 'mpg')
+        data5.addColumn('number', 'hp')
+        data5.addColumn('number', 'cyl')
+        data5.addColumn('number', 'accel')
+        data5.addColumn('number', 'origin')
+        data5.addColumn('number', 'weight')
+        data5.addColumn('number', 'displ')
+        data5.addColumn('string', 'name')
+        data5.addRows(dataStuff5);
+
+        var data6 = new google.visualization.DataTable();
+
+        data6.addColumn('string', 'year')
+        data6.addColumn('number', 'cyl')
+        data6.addRows(dataStuff6);
+
+        // Set chart options Titles
+
+        var options1 = {'title':'MPG each year for US, Europe and Asia Automobiles 1970-1982',
+                       'width':600,
+                       'height':500,
+                     colors: ['#e0440e'],
+
+
+        is3D: false};
+
+        var options2 = {'title':'HP each year for US, Europe and Asia Automobiles 1970-1982',
+                       'width':600,
+                       'height':500,
+                     colors: ['#8E44AD'],
+
+
+        is3D: false};
+
+        var options3 = {'title':'Weight each year for US, Europe and Asia Automobiles 1970-1982',
+                       'width':600,
+                       'height':500,
+                     colors: ['#3498DB'],
+
+
+        is3D: false};
+
+        var options4 = {'title':'Acceloration each year for US, Europe and Asia Automobiles 1970-1982',
+                       'width':600,
+                       'height':500,
+                     colors: ['#58D68D'],
+
+
+        is3D: false};
+
+        var options5 = {'title':'Origin by Year 1) US 2) Europe 3) Asia  Automobiles 1970-1982',
+                       'width':1200,
+                       'height':200,
+                     colors: ['#D4AC0D'],
+
+
+        is3D: false};
+
+        //var options6 = {'title':'Number of Cylinders each year for US, Europe and Asia Automobiles 1970-1982',
+        //               'width':600,
+        //               'height':500,
+        //             colors: ['#D68910'],
+
+
+        //is3D: false};
+
+
+ // Instantiate and draw our chart, passing in some options.
+        var chart1 = new google.visualization.LineChart(document.getElementById('mpg_chart_div'));
+        chart1.draw(data1, options1);
+
+        var chart2 = new google.visualization.LineChart(document.getElementById('hp_chart_div'));
+        chart2.draw(data2, options2);
+
+        var chart3 = new google.visualization.LineChart(document.getElementById('weight_chart_div'));
+        chart3.draw(data3, options3);
+
+        var chart4 = new google.visualization.LineChart(document.getElementById('accel_chart_div'));
+        chart4.draw(data4, options4);
+
+        var chart5 = new google.visualization.Table(document.getElementById('origin_chart_div'));
+        chart5.draw(data5, options5);
+
+        table.draw(data5, {showRowNumber: true, width: '100%', height: '100%', 'className': 'bold-font'});
+
+        //var chart6 = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+        //chart6.draw(data6, options6);
+
+
+}
+    </script>
+
+</html>
